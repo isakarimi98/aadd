@@ -1,0 +1,14 @@
+{
+  "appId": "com.photocopy.scanmaster",
+  "appName": "فتوکپی پلاس",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "buildOptions": {
+      "keystorePath": "",
+      "releaseType": "AAB"
+    }
+  }
+}

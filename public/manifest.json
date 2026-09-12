@@ -1,0 +1,20 @@
+{
+  "name": "اسکنر و فتوکپی هوشمند مدارک",
+  "short_name": "فتوکپی پلاس",
+  "description": "اپلیکیشن اندروید اسکن و فتوکپی آفلاین مدارک شناسایی، بدون نیاز به اینترنت با خروجی PDF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/src/assets/images/app_scanner_icon_1789253189368.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

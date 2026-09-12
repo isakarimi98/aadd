@@ -1,0 +1,6 @@
+{
+  "name": "اسکنر و فتوکپی هوشمند مدارک",
+  "description": "اپلیکیشن اندروید اسکن و فتوکپی آفلاین مدارک شناسایی، تشخیص خودکار و دستی لبه‌ها، تبدیل به PDF و خروجی با کیفیت برای بازار و مایکت (API 34)",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
