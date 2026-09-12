@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-apk:
-    name: Build Release APK and AAB (API Level 34)
+    name: Build Android APK (API 34)
     runs-on: ubuntu-latest
 
     steps:
@@ -26,45 +26,41 @@ jobs:
       - name: Build Web Application
         run: npm run build
 
-      - name: Set up Java 17 (Required for Android Gradle Plugin 8+ & API 34)
+      - name: Sync Web Dist to Android Assets
+        run: |
+          mkdir -p android/app/src/main/assets
+          rm -rf android/app/src/main/assets/*
+          cp -r dist/* android/app/src/main/assets/
+          echo "Web assets successfully copied into Android app bundle:"
+          ls -la android/app/src/main/assets/
+
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Set up Android SDK 34
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
         with:
-          cmdline-tools-version: 11076708
-          api-version: 34
-          build-tools-version: 34.0.0
+          gradle-version: 8.5
 
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build Android APK & Bundle
+      - name: Build Android APK with Gradle
         run: |
-          if [ -f "./android/gradlew" ]; then
-            cd android
-            chmod +x gradlew
-            ./gradlew assembleDebug assembleRelease --no-daemon
-          else
-            echo "Building via Capacitor CLI..."
-            npx @capacitor/cli copy android || true
-          fi
+          cd android
+          gradle assembleDebug assembleRelease --no-daemon --stacktrace
 
-      - name: Upload APK Artifact
+      - name: Locate Output APKs
+        run: |
+          echo "Listing generated APK files:"
+          find android/app/build/outputs/ -type f || true
+
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: PhotocopyPlus-Android-APK
           path: |
             android/app/build/outputs/apk/**/*.apk
-            dist/
+            android/app/build/outputs/bundle/**/*.aab
+          if-no-files-found: warn
           retention-days: 14
