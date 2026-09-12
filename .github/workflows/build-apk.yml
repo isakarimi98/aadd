@@ -39,15 +39,20 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
+      - name: Accept Licenses & Install Android Build-Tools
+        run: |
+          echo "Accepting Android SDK licenses..."
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          echo "Ensuring Android 34 platforms and build-tools are present..."
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0"
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.5
 
-      - name: Accept Licenses & Run Gradle Build
+      - name: Run Gradle Build
         run: |
-          echo "Accepting Android SDK licenses automatically..."
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
           cd android
           gradle :app:assembleDebug --no-daemon --stacktrace
 
