@@ -54,7 +54,7 @@ jobs:
       - name: Build Android APK with Gradle
         run: |
           cd android
-          gradle assembleDebug assembleRelease --no-daemon --stacktrace
+          gradle :app:assembleDebug :app:assembleRelease --no-daemon --stacktrace --info
 
       - name: Locate Output APKs
         run: |
